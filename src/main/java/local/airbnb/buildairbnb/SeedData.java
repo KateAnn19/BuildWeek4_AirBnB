@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +26,7 @@ public class SeedData
      * Connects the Role Service to this process
      */
     @Autowired
-    RoleService roleService;
+    ListingService listService;
 
     /**
      * Connects the user service to this process
@@ -34,13 +35,9 @@ public class SeedData
     UserService userService;
 
     @Autowired
-    AuthorService authorService;
+    RoleService roleService;
 
-    @Autowired
-    BookService bookService;
 
-    @Autowired
-    SectionService sectionService;
 
     /**
      * Generates test, seed data for our application
@@ -57,10 +54,7 @@ public class SeedData
             Exception
     {
         userService.deleteAll();
-        roleService.deleteAll();
-        authorService.deleteAll();
-        bookService.deleteAll();
-        sectionService.deleteAll();
+        listService.deleteAll();
 
         Role r1 = new Role("admin");
         Role r2 = new Role("user");
@@ -71,121 +65,61 @@ public class SeedData
         r3 = roleService.save(r3);
 
         // admin, data, user
-        User u1 = new User("admin",
-                           "password",
-                           "admin@lambdaschool.local");
-        u1.getRoles()
-                .add(new UserRoles(u1, r1));
-        u1.getUseremails()
-                .add(new Useremail(u1,
-                                   "admin@email.local"));
-        u1.getUseremails()
-                .add(new Useremail(u1,
-                                   "admin@mymail.local"));
+        User u1 = new User("admin", "password", "admin@lambdaschool.local");
+        u1.getRoles().add(new UserRoles(u1, r1));
+        u1.getUseremails().add(new Useremail(u1, "admin@email.local"));
+        u1.getUseremails().add(new Useremail(u1, "admin@mymail.local"));
 
         userService.save(u1);
 
         // data, user
-        User u2 = new User("cinnamon",
-                           "1234567",
-                           "cinnamon@lambdaschool.local");
-        u2.getRoles()
-                .add(new UserRoles(u2, r3));
-        u2.getUseremails()
-                .add(new Useremail(u2,
-                                   "cinnamon@mymail.local"));
-        u2.getUseremails()
-                .add(new Useremail(u2,
-                                   "hops@mymail.local"));
-        u2.getUseremails()
-                .add(new Useremail(u2,
-                                   "bunny@email.local"));
+        User u2 = new User("cinnamon", "1234567", "cinnamon@lambdaschool.local");
+        u2.getRoles().add(new UserRoles(u2, r3));
+        u2.getUseremails().add(new Useremail(u2, "cinnamon@mymail.local"));
+        u2.getUseremails().add(new Useremail(u2, "hops@mymail.local"));
+        u2.getUseremails().add(new Useremail(u2, "bunny@email.local"));
         userService.save(u2);
 
         // user
-        User u3 = new User("barnbarn",
-                           "ILuvM4th!",
-                           "barnbarn@lambdaschool.local");
-        u3.getRoles()
-                .add(new UserRoles(u3, r2));
-        u3.getUseremails()
-                .add(new Useremail(u3,
-                                   "barnbarn@email.local"));
+        User u3 = new User("barnbarn", "ILuvM4th!", "barnbarn@lambdaschool.local");
+        u3.getRoles().add(new UserRoles(u3, r2));
+        u3.getUseremails().add(new Useremail(u3, "barnbarn@email.local"));
         userService.save(u3);
 
-        User u4 = new User("puttat",
-                           "password",
-                           "puttat@school.lambda");
-        u4.getRoles()
-                .add(new UserRoles(u4, r2));
+        User u4 = new User("puttat", "password", "puttat@school.lambda");
+        u4.getRoles().add(new UserRoles(u4, r2));
         userService.save(u4);
 
-        User u5 = new User("misskitty",
-                           "password",
-                           "misskitty@school.lambda");
-        u5.getRoles()
-                .add(new UserRoles(u5, r2));
+        User u5 = new User("misskitty", "password", "misskitty@school.lambda");
+        u5.getRoles().add(new UserRoles(u5, r2));
         userService.save(u5);
 
         /************
-         * Seed Books
+         * Seed Listing
          ************/
 
-        Author a1 = new Author("John", "Mitchell");
-        Author a2 = new Author("Dan", "Brown");
-        Author a3 = new Author("Jerry", "Poe");
-        Author a4 = new Author("Wells", "Teague");
-        Author a5 = new Author("George", "Gallinger");
-        Author a6 = new Author("Ian", "Stewart");
+        Listing l1 = new Listing("John", "Mitchell");
+        Listing l2 = new Listing("Dan", "Brown");
+        Listing l3 = new Listing("Jerry", "Poe");
+        Listing l4 = new Listing("Wells", "Teague");
+        Listing l5 = new Listing("George", "Gallinger");
+        Listing l6 = new Listing("Ian", "Stewart");
 
-        a1 = authorService.save(a1);
-        a2 = authorService.save(a2);
-        a3 = authorService.save(a3);
-        a4 = authorService.save(a4);
-        a5 = authorService.save(a5);
-        a6 = authorService.save(a6);
+        l1 = listService.save(l1);
+        l2 = listService.save(l2);
+        l3 = listService.save(l3);
+        l4 = listService.save(l4);
+        l5 = listService.save(l5);
+        l6 = listService.save(l6);
 
-        Section s1 = new Section("Fiction");
-        Section s2 = new Section("Technology");
-        Section s3 = new Section("Travel");
-        Section s4 = new Section("Business");
-        Section s5 = new Section("Religion");
+        //Section s1 = new Section("Fiction");
+       // s1 = sectionService.save(s1);
 
-        s1 = sectionService.save(s1);
-        s2 = sectionService.save(s2);
-        s3 = sectionService.save(s3);
-        s4 = sectionService.save(s4);
-        s5 = sectionService.save(s5);
+        //Set<Wrote> wrote = new HashSet<>();
+       // wrote.add(new Wrote(a6, new Book()));
+       // Book b1 = new Book("Flatterland", "9780738206752", 2001, s1);
+       // b1.setWrotes(wrote);
+        //b1 = bookService.save(b1);
 
-        Set<Wrote> wrote = new HashSet<>();
-        wrote.add(new Wrote(a6, new Book()));
-        Book b1 = new Book("Flatterland", "9780738206752", 2001, s1);
-        b1.setWrotes(wrote);
-        b1 = bookService.save(b1);
-
-        wrote = new HashSet<>();
-        wrote.add(new Wrote(a2, new Book()));
-        Book b2 = new Book("Digital Fortess", "9788489367012", 2007, s1);
-        b2.setWrotes(wrote);
-        b2 = bookService.save(b2);
-
-        wrote = new HashSet<>();
-        wrote.add(new Wrote(a2, new Book()));
-        Book b3 = new Book("The Da Vinci Code", "9780307474278", 2009, s1);
-        b3.setWrotes(wrote);
-        b3 = bookService.save(b3);
-
-        wrote = new HashSet<>();
-        wrote.add(new Wrote(a5, new Book()));
-        wrote.add(new Wrote(a3, new Book()));
-        Book b4 = new Book("Essentials of Finance", "1314241651234", 0, s4);
-        b4.setWrotes(wrote);
-        b4 = bookService.save(b4);
-
-        wrote = new HashSet<>();
-        wrote.add(new Wrote(a4, new Book()));
-        Book b5 = new Book("Calling Texas Home", "1885171382134", 2000, s3);
-        b5.setWrotes(wrote);
-        b5 = bookService.save(b5);
     }
 }

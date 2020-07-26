@@ -62,15 +62,17 @@ public class User
      * Part of the join relationship between user and role
      * connects users to the user role combination
      */
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = "user", allowSetters = true)
     private Set<UserRoles> roles = new HashSet<>();
 
     /**
      * Default constructor used primarily by the JPA.
      */
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private Set<Listing> listing = new HashSet<>();
     public User()
     {
     }
