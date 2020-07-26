@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,13 +35,11 @@ public class UserController
      * @return JSON list of all users with a status of OK
      * @see UserService#findAll() UserService.findAll()
      */
-    @GetMapping(value = "/users",
-            produces = "application/json")
+    @GetMapping(value = "/users", produces = "application/json")
     public ResponseEntity<?> listAllUsers()
     {
         List<User> myUsers = userService.findAll();
-        return new ResponseEntity<>(myUsers,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 
     /**
@@ -53,13 +52,10 @@ public class UserController
      */
     @GetMapping(value = "/user/{userId}",
             produces = "application/json")
-    public ResponseEntity<?> getUserById(
-            @PathVariable
-                    Long userId)
+    public ResponseEntity<?> getUserById(@PathVariable Long userId)
     {
         User u = userService.findUserById(userId);
-        return new ResponseEntity<>(u,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
     /**
@@ -70,15 +66,11 @@ public class UserController
      * @return JSON object of the user you seek
      * @see UserService#findByName(String) UserService.findByName(String)
      */
-    @GetMapping(value = "/user/name/{userName}",
-            produces = "application/json")
-    public ResponseEntity<?> getUserByName(
-            @PathVariable
-                    String userName)
+    @GetMapping(value = "/user/name/{userName}", produces = "application/json")
+    public ResponseEntity<?> getUserByName(@PathVariable String userName)
     {
         User u = userService.findByName(userName);
-        return new ResponseEntity<>(u,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
     /**
@@ -89,15 +81,19 @@ public class UserController
      * @return A JSON list of users you seek
      * @see UserService#findByNameContaining(String) UserService.findByNameContaining(String)
      */
-    @GetMapping(value = "/user/name/like/{userName}",
-            produces = "application/json")
-    public ResponseEntity<?> getUserLikeName(
-            @PathVariable
-                    String userName)
+    @GetMapping(value = "/user/name/like/{userName}", produces = "application/json")
+    public ResponseEntity<?> getUserLikeName(@PathVariable String userName)
     {
         List<User> u = userService.findByNameContaining(userName);
-        return new ResponseEntity<>(u,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/myinfo", produces = "application/json")
+    public ResponseEntity<?> getCurrentUserInfo(Authentication authentication)
+    {
+        User u = userService.findByName(authentication.getName());
+
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
     /**
@@ -126,9 +122,7 @@ public class UserController
                 .toUri();
         responseHeaders.setLocation(newUserURI);
 
-        return new ResponseEntity<>(null,
-                                    responseHeaders,
-                                    HttpStatus.CREATED);
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
     /**
@@ -144,14 +138,8 @@ public class UserController
      * @return status of OK
      * @see //UserService#save(User) UserService.save(User)
      */
-    @PutMapping(value = "/user/{userid}",
-            consumes = "application/json")
-    public ResponseEntity<?> updateFullUser(
-            @Valid
-            @RequestBody
-                    User updateUser,
-            @PathVariable
-                    long userid)
+    @PutMapping(value = "/user/{userid}", consumes = "application/json")
+    public ResponseEntity<?> updateFullUser(@Valid @RequestBody User updateUser, @PathVariable long userid)
     {
         updateUser.setUserid(userid);
         userService.save(updateUser);
@@ -170,16 +158,10 @@ public class UserController
      * @return A status of OK
      * @see //UserService#update(User, long) UserService.update(User, long)
      */
-    @PatchMapping(value = "/user/{id}",
-            consumes = "application/json")
-    public ResponseEntity<?> updateUser(
-            @RequestBody
-                    User updateUser,
-            @PathVariable
-                    long id)
+    @PatchMapping(value = "/user/{id}", consumes = "application/json")
+    public ResponseEntity<?> updateUser(@RequestBody User updateUser, @PathVariable long id)
     {
-        userService.update(updateUser,
-                           id);
+        userService.update(updateUser, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -191,9 +173,7 @@ public class UserController
      * @return Status of OK
      */
     @DeleteMapping(value = "/user/{id}")
-    public ResponseEntity<?> deleteUserById(
-            @PathVariable
-                    long id)
+    public ResponseEntity<?> deleteUserById(@PathVariable long id)
     {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

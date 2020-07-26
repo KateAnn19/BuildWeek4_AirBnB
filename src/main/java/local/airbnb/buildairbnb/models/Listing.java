@@ -61,7 +61,7 @@ public class Listing extends Auditable
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false) //this adds a foreign key to telephone // zooid is the field in zoo
-    @JsonIgnoreProperties(value = "listing", allowSetters = true) //fields inside user
+    @JsonIgnoreProperties(value = "list", allowSetters = true) //fields inside user
     private User user; //single user it relates to
 
     public Listing()
@@ -272,5 +272,29 @@ public class Listing extends Auditable
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Listing{" +
+            "listingid=" + listingid +
+            ", propertytype='" + propertytype + '\'' +
+            ", roomtype='" + roomtype + '\'' +
+            ", accomodates=" + accomodates +
+            ", bathrooms=" + bathrooms +
+            ", cleanfee=" + cleanfee +
+            ", city='" + city + '\'' +
+            ", latitude=" + latitude +
+            ", longitude=" + longitude +
+            ", reviewscoresrating=" + reviewscoresrating +
+            ", zipcode=" + zipcode +
+            ", bedrooms=" + bedrooms +
+            ", beds=" + beds +
+            ", dryer=" + dryer +
+            ", parking=" + parking +
+            ", descriptionLen=" + descriptionLen +
+            ", user=" + user +
+            '}';
     }
 }

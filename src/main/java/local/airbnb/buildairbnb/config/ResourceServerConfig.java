@@ -53,13 +53,11 @@ public class ResourceServerConfig
                              "/createnewuser")
                 .permitAll()
                 .antMatchers("/users/**",
-                             "/useremails/**",
+                             "/useremails/**","/listings/**",
                              "/oauth/revoke-token",
                              "/logout")
                 .authenticated()
                 .antMatchers("/roles/**")
-                .hasAnyRole("ADMIN", "DATA")
-                .antMatchers("/books/**")
                 .hasAnyRole("ADMIN", "DATA")
                 .and()
                 .exceptionHandling()

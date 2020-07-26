@@ -19,8 +19,7 @@ import java.util.Set;
  */
 @Transactional
 @Component
-public class SeedData
-        implements CommandLineRunner
+public class SeedData implements CommandLineRunner
 {
     /**
      * Connects the Role Service to this process
@@ -70,6 +69,25 @@ public class SeedData
         u1.getUseremails().add(new Useremail(u1, "admin@email.local"));
         u1.getUseremails().add(new Useremail(u1, "admin@mymail.local"));
 
+        Listing l1 = new Listing(
+            "house",
+            "whole house",
+            3,
+            3,
+            true,
+            "los angeles",
+            3,
+            3,
+            10,
+            20304,
+            2,
+            3,
+            true,
+            true,
+            30,
+            u1);
+        u1.getList().add(l1);
+
         userService.save(u1);
 
         // data, user
@@ -78,48 +96,113 @@ public class SeedData
         u2.getUseremails().add(new Useremail(u2, "cinnamon@mymail.local"));
         u2.getUseremails().add(new Useremail(u2, "hops@mymail.local"));
         u2.getUseremails().add(new Useremail(u2, "bunny@email.local"));
+
+
+                Listing l2 = new Listing("house", "single room", 3,
+                    3,
+                    true,
+                    "los angeles",
+                    3,
+                    3,
+                    10,
+                    20304,
+                    2,
+                    3,
+                    true,
+                    true,
+                    30,
+                    u2);
+
+        u2.getList().add(l2);
+
         userService.save(u2);
 
         // user
         User u3 = new User("barnbarn", "ILuvM4th!", "barnbarn@lambdaschool.local");
         u3.getRoles().add(new UserRoles(u3, r2));
         u3.getUseremails().add(new Useremail(u3, "barnbarn@email.local"));
+
+                Listing l3 = new Listing("apartment", "whole house", 3,
+                    3,
+                    true,
+                    "los angeles",
+                    3,
+                    3,
+                    10,
+                    20304,
+                    2,
+                    3,
+                    true,
+                    true,
+                    30,
+                    u3);
+        u3.getList().add(l3);
         userService.save(u3);
 
         User u4 = new User("puttat", "password", "puttat@school.lambda");
         u4.getRoles().add(new UserRoles(u4, r2));
+
+                Listing l4 = new Listing("apartment", "single room",
+                    3,
+                    3,
+                    true,
+                    "los angeles",
+                    3,
+                    3,
+                    10,
+                    20304,
+                    2,
+                    3,
+                    true,
+                    true,
+                    30,
+                    u4);
+                Listing l5 = new Listing("loft", "single room", 3,
+                    3,
+                    true,
+                    "los angeles",
+                    3,
+                    3,
+                    10,
+                    20304,
+                    2,
+                    3,
+                    true,
+                    true,
+                    30,
+                    u4);
+        u4.getList().add(l4);
+        u4.getList().add(l5);
         userService.save(u4);
 
         User u5 = new User("misskitty", "password", "misskitty@school.lambda");
         u5.getRoles().add(new UserRoles(u5, r2));
+                Listing l6 = new Listing("house", "single room",
+                    3,
+                    3,
+                    true,
+                    "los angeles",
+                    3,
+                    3,
+                    10,
+                    20304,
+                    2,
+                    3,
+                    false,
+                    false,
+                    30,
+                    u5);
+        u5.getList().add(l6);
         userService.save(u5);
 
         /************
          * Seed Listing
          ************/
+//        String propertytype, String roomtype, int accomodates, int bathrooms, boolean cleanfee,
+//        String city, int latitude, int longitude, int reviewscoresrating, long zipcode, int bedrooms,
+//        int beds, boolean dryer, boolean parking, long descriptionLen, User user
 
-        Listing l1 = new Listing("John", "Mitchell");
-        Listing l2 = new Listing("Dan", "Brown");
-        Listing l3 = new Listing("Jerry", "Poe");
-        Listing l4 = new Listing("Wells", "Teague");
-        Listing l5 = new Listing("George", "Gallinger");
-        Listing l6 = new Listing("Ian", "Stewart");
 
-        l1 = listService.save(l1);
-        l2 = listService.save(l2);
-        l3 = listService.save(l3);
-        l4 = listService.save(l4);
-        l5 = listService.save(l5);
-        l6 = listService.save(l6);
-
-        //Section s1 = new Section("Fiction");
-       // s1 = sectionService.save(s1);
-
-        //Set<Wrote> wrote = new HashSet<>();
-       // wrote.add(new Wrote(a6, new Book()));
-       // Book b1 = new Book("Flatterland", "9780738206752", 2001, s1);
-       // b1.setWrotes(wrote);
-        //b1 = bookService.save(b1);
 
     }
 }

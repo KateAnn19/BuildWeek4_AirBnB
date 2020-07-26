@@ -2,10 +2,7 @@ package local.airbnb.buildairbnb.services;
 
 
 import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
-import local.airbnb.buildairbnb.models.Role;
-import local.airbnb.buildairbnb.models.User;
-import local.airbnb.buildairbnb.models.UserRoles;
-import local.airbnb.buildairbnb.models.Useremail;
+import local.airbnb.buildairbnb.models.*;
 import local.airbnb.buildairbnb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,6 +114,32 @@ public class UserServiceImpl
             newUser.getUseremails()
                     .add(new Useremail(newUser,
                                        ue.getUseremail()));
+        }
+
+//        newListing.setPropertytype(list.getPropertytype());
+//        newListing.setRoomtype(list.getRoomtype());
+//        newListing.setAccomodates(list.getAccomodates());
+//        newListing.setBathrooms(list.getBathrooms());
+//        newListing.setCleanfee(list.isCleanfee());
+//        newListing.setCity(list.getCity());
+//        newListing.setLatitude(list.getLatitude());
+//        newListing.setLongitude(list.getLongitude());
+//        newListing.setReviewscoresrating(list.getReviewscoresrating());
+//        newListing.setZipcode(list.getZipcode());
+//        newListing.setBedrooms(list.getBedrooms());
+//        newListing.setBeds(list.getBeds());
+//        newListing.setDryer(list.isDryer());
+//        newListing.setParking(list.isParking());
+//        newListing.setDescriptionLen(list.getDescriptionLen());
+//        newListing.setUser(list.getUser()
+
+        newUser.getList().clear();
+        for(Listing li : user.getList())
+        {
+            newUser.getList().add(new Listing(li.getPropertytype(), li.getRoomtype(),
+                li.getAccomodates(), li.getBathrooms(), li.isCleanfee(),li.getCity(),
+                li.getLatitude(), li.getLongitude(), li.getReviewscoresrating(), li.getZipcode(),
+                li.getBedrooms(), li.getBeds(), li.isDryer(), li.isParking(), li.getDescriptionLen(), newUser));
         }
 
         return userrepos.save(newUser);
