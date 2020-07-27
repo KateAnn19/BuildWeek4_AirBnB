@@ -20,7 +20,7 @@ public interface ListingService
 
     Listing findListingById(long id);
 
-    Listing saveByAuth(User user, Listing list);
+    Listing saveByAuth(User user, Listing list, String str);
 
     Listing savePrice(Listing list, String str);
 }

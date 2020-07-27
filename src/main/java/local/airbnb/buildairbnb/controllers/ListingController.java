@@ -1,21 +1,24 @@
 package local.airbnb.buildairbnb.controllers;
 
 import local.airbnb.buildairbnb.models.Listing;
+import local.airbnb.buildairbnb.models.OptimalPrice;
 import local.airbnb.buildairbnb.models.User;
 import local.airbnb.buildairbnb.models.Useremail;
 import local.airbnb.buildairbnb.services.ListingService;
 import local.airbnb.buildairbnb.services.UserService;
 import local.airbnb.buildairbnb.services.UseremailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -61,8 +64,52 @@ public class ListingController
     public ResponseEntity<?> addNewListing(Authentication authentication, @RequestBody Listing newListing) throws URISyntaxException
     {
         User u = userService.findByName(authentication.getName());
+//request from DS
 
-        listingService.saveByAuth(u, newListing);
+        RestTemplate restTemplate = new RestTemplate();
+
+        System.out.println("THIS IS THE LIST " + newListing);
+
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+        restTemplate.getMessageConverters().add(converter);
+
+
+        System.out.println("Reached this spot");
+
+        String reqUrl = "https://testapifortesting.herokuapp.com/predict";
+
+        System.out.println("made the request");
+        ParameterizedTypeReference<OptimalPrice> responseType = new ParameterizedTypeReference<>() {
+        };
+
+        HttpEntity<Listing> requestEntity = new HttpEntity<>(newListing);
+
+        ResponseEntity<OptimalPrice> responseEntity = restTemplate.exchange(reqUrl,
+            HttpMethod.POST, requestEntity, responseType);
+
+
+        OptimalPrice price = responseEntity.getBody();
+
+        //optimalpriceService.save(list.getListingid(), price);
+
+        String stringPrice = new String(responseEntity.getBody().getPrices());
+        //Str = Str.replaceAll("[A-Z]+[:]+[a-z]+",);
+        stringPrice = stringPrice.replaceAll("[a-zA-Z]", "");
+        stringPrice = stringPrice.replaceAll("[}{:\"]", "");
+        stringPrice = stringPrice.replaceAll("[\\s+]", "");
+        System.out.println(stringPrice);
+        //System.out.println(Str.substring(10,17));
+
+        System.out.println("This is response entity " + responseEntity.getBody().getPrices());
+
+        System.out.println(price);
+
+        //listingService.savePrice(list, stringPrice);
+        newListing.setPrice(stringPrice);
+
+        //request from DS
+        listingService.saveByAuth(u, newListing, stringPrice);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -75,20 +122,12 @@ public class ListingController
     {
         User u = userService.findByName(authentication.getName());
 
+      //ds endpoint
+
+
+        //ds endpoint
         listingService.update(u, updateListing,
             listingid);
-
-
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        URI newListingURI = ServletUriComponentsBuilder.fromCurrentServletMapping()
-//            .path("/listings/listing/{listingid}")
-//            .buildAndExpand(listingid)
-//            .toUri();
-//        responseHeaders.setLocation(newListingURI);
-//
-//        return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
-
-
        return new ResponseEntity<>(HttpStatus.OK);
     }
 

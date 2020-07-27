@@ -5,10 +5,10 @@ import com.google.common.base.Splitter;
 import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.OptimalPrice;
 import local.airbnb.buildairbnb.repository.ListingRepository;
-import local.airbnb.buildairbnb.repository.OptimalPriceRepository;
+//import local.airbnb.buildairbnb.repository.OptimalPriceRepository;
 import local.airbnb.buildairbnb.services.ListingService;
 //import local.airbnb.buildairbnb.services.OptimalPriceService;
-import local.airbnb.buildairbnb.services.OptimalPriceService;
+//import local.airbnb.buildairbnb.services.OptimalPriceService;
 import local.airbnb.buildairbnb.services.UserService;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +37,11 @@ public class ReqController
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private OptimalPriceService optimalpriceService;
+//    @Autowired
+//    private OptimalPriceService optimalpriceService;
 
-    @Autowired
-    private OptimalPriceRepository optimalPriceRepository;
+//    @Autowired
+//    private OptimalPriceRepository optimalPriceRepository;
 
 //    @Autowired
 //    private OptimalPriceService optimalPriceService;
@@ -79,7 +79,6 @@ public class ReqController
     {
         RestTemplate restTemplate = new RestTemplate();
 
-
         System.out.println("THIS IS THE LIST " + list);
 
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -97,7 +96,8 @@ public class ReqController
 
         HttpEntity<Listing> requestEntity = new HttpEntity<>(list);
 
-        ResponseEntity<OptimalPrice> responseEntity = restTemplate.exchange(reqUrl, HttpMethod.POST, requestEntity, responseType);
+        ResponseEntity<OptimalPrice> responseEntity = restTemplate.exchange(reqUrl,
+            HttpMethod.POST, requestEntity, responseType);
 
 
         OptimalPrice price = responseEntity.getBody();

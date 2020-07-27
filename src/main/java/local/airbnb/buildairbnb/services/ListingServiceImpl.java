@@ -2,14 +2,23 @@ package local.airbnb.buildairbnb.services;
 
 import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
 import local.airbnb.buildairbnb.models.Listing;
+import local.airbnb.buildairbnb.models.OptimalPrice;
 import local.airbnb.buildairbnb.models.User;
 import local.airbnb.buildairbnb.repository.ListingRepository;
 import local.airbnb.buildairbnb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Transactional
@@ -78,7 +87,7 @@ public class ListingServiceImpl implements ListingService
 
 
     @Override
-    public Listing saveByAuth(User user, Listing list)
+    public Listing saveByAuth(User user, Listing list, String str)
     {
         Listing newListing = new Listing();
         User dbuser = userRepository.findById(user.getUserid())
@@ -111,6 +120,7 @@ public class ListingServiceImpl implements ListingService
         newListing.setDryer(list.isDryer());
         newListing.setParking(list.isParking());
         newListing.setdescriptionlen(list.getdescriptionlen());
+        newListing.setPrice(str);
         newListing.setUser(user);
 
         return listingRepo.save(newListing);
@@ -264,26 +274,57 @@ public class ListingServiceImpl implements ListingService
             currentListing.setdescriptionlen(list.getdescriptionlen()); //number
         }
 
-        currentListing.setUser(currentUser);
+        //ds endpoint
 
+        RestTemplate restTemplate = new RestTemplate();
+
+        System.out.println("THIS IS THE LIST " + currentListing);
+
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+        restTemplate.getMessageConverters().add(converter);
+
+
+        System.out.println("Reached this spot");
+
+        String reqUrl = "https://testapifortesting.herokuapp.com/predict";
+
+        System.out.println("made the request");
+        ParameterizedTypeReference<OptimalPrice> responseType = new ParameterizedTypeReference<>() {
+        };
+
+        HttpEntity<Listing> requestEntity = new HttpEntity<>(currentListing);
+
+        ResponseEntity<OptimalPrice> responseEntity = restTemplate.exchange(reqUrl,
+            HttpMethod.POST, requestEntity, responseType);
+
+
+        OptimalPrice price = responseEntity.getBody();
+
+        //optimalpriceService.save(list.getListingid(), price);
+
+        String stringPrice = new String(responseEntity.getBody().getPrices());
+        //Str = Str.replaceAll("[A-Z]+[:]+[a-z]+",);
+        stringPrice = stringPrice.replaceAll("[a-zA-Z]", "");
+        stringPrice = stringPrice.replaceAll("[}{:\"]", "");
+        stringPrice = stringPrice.replaceAll("[\\s+]", "");
+        System.out.println(stringPrice);
+        //System.out.println(Str.substring(10,17));
+
+        System.out.println("This is response entity " + responseEntity.getBody().getPrices());
+
+        System.out.println(price);
+
+
+        //ds endpoint
+
+        //override price
+        currentListing.setPrice(stringPrice);
+
+        currentListing.setUser(currentUser);
 
         return listingRepo.save(currentListing);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override

@@ -6,8 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "listing")
-@JsonIgnoreProperties(value = "hasvalueforaccomodates, hasvalueforbathrooms, hasvalueforlatitude" +
-    "hasvalueforlongitude, hasvalueforreviewscore, hasvalueforzipcode, hasvalueforbedrooms, hasvalueforbeds, hasvaluefordescriptionlen", ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"hasvalueforaccomodates", "hasvalueforbathrooms", "hasvalueforlatitude", "hasvalueforlongitude", "hasvalueforreviewscore", "hasvalueforzipcode", "hasvalueforbedrooms", "hasvalueforbeds", "hasvaluefordescriptionlen"}, ignoreUnknown = true)
 public class Listing extends Auditable
 {
     @Id
@@ -45,7 +44,7 @@ public class Listing extends Auditable
 //         "Description_Len": 0
     private long descriptionlen;
 
-    private String price = "click for price";
+    private String price = "click for price"; //double
 
     @Transient
     public boolean hasvalueforaccomodates = false;
