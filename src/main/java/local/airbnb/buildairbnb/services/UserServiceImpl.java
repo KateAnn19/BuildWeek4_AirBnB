@@ -139,7 +139,7 @@ public class UserServiceImpl
             newUser.getList().add(new Listing(li.getPropertytype(), li.getRoomtype(),
                 li.getAccomodates(), li.getBathrooms(), li.isCleanfee(),li.getCity(),
                 li.getLatitude(), li.getLongitude(), li.getReviewscoresrating(), li.getZipcode(),
-                li.getBedrooms(), li.getBeds(), li.isDryer(), li.isParking(), li.getdescriptionlen(), newUser));
+                li.getBedrooms(), li.getBeds(), li.isDryer(), li.isParking(), li.getdescriptionlen(), li.getPrice(),newUser));
         }
 
         return userrepos.save(newUser);

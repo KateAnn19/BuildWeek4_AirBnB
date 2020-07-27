@@ -85,6 +85,7 @@ public class SeedData implements CommandLineRunner
             true,
             true,
             30,
+            "0",
             u1);
         u1.getList().add(l1);
 
@@ -110,7 +111,7 @@ public class SeedData implements CommandLineRunner
                     3,
                     true,
                     true,
-                    30,
+                    30,"0",
                     u2);
 
         u2.getList().add(l2);
@@ -134,7 +135,7 @@ public class SeedData implements CommandLineRunner
                     3,
                     true,
                     true,
-                    30,
+                    30,"0",
                     u3);
         u3.getList().add(l3);
         userService.save(u3);
@@ -155,7 +156,7 @@ public class SeedData implements CommandLineRunner
                     3,
                     true,
                     true,
-                    30,
+                    30,"0",
                     u4);
                 Listing l5 = new Listing("loft", "single room", 3,
                     3,
@@ -169,7 +170,7 @@ public class SeedData implements CommandLineRunner
                     3,
                     true,
                     true,
-                    30,
+                    30,"0",
                     u4);
         u4.getList().add(l4);
         u4.getList().add(l5);
@@ -190,7 +191,7 @@ public class SeedData implements CommandLineRunner
                     3,
                     false,
                     false,
-                    30,
+                    30,"0",
                     u5);
         u5.getList().add(l6);
         userService.save(u5);

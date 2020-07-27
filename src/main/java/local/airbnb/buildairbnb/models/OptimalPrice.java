@@ -9,48 +9,44 @@ import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@Entity(name="optimalprice")
-public class OptimalPrice
+@Entity(name="optimalprice")
+public class OptimalPrice extends Auditable
 {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private long optiomalpriceid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long optimalpriceid;
 
-    //@ElementCollection
+    ///@ElementCollection
     //@CollectionTable(name = "optimalprice")
     //@Column(name ="price")
     private String Prices;
 
     //@OneToOne
-   // @OneToOne
-   // @JoinColumn(name = "listingid", nullable = false) //this adds a foreign key to telephone // zooid is the field in zoo
-    //@JsonIgnoreProperties(value = "price", allowSetters = true) //fields inside user
-    //private Listing list; //single user it relates to
+    @OneToOne
+    @JoinColumn(name = "listingid", nullable = false) //this adds a foreign key to telephone // zooid is the field in zoo
+    @JsonIgnoreProperties(value = "price", allowSetters = true) //fields inside user
+    private Listing list; //single user it relates to
 
-//    public OptimalPrice()
-//    {
-//    }
-//
-//    public long getOptiomalpriceid()
-//    {
-//        return optiomalpriceid;
-//    }
-//
-//    public void setOptiomalpriceid(long optiomalpriceid)
-//    {
-//        this.optiomalpriceid = optiomalpriceid;
-//    }
-//
-//    public float getPrices()
-//    {
-//        return Prices;
-//    }
-//
-//    public void setPrices(float prices)
-//    {
-//        Prices = prices;
-//    }
+    public OptimalPrice()
+    {
+    }
 
+
+    public OptimalPrice(String prices)
+    {
+        Prices = prices;
+    }
+
+
+    public long getOptimalpriceid()
+    {
+        return optimalpriceid;
+    }
+
+    public void setOptimalpriceid(long optimalpriceid)
+    {
+        this.optimalpriceid = optimalpriceid;
+    }
 
     public String getPrices()
     {
@@ -60,13 +56,5 @@ public class OptimalPrice
     public void setPrices(String prices)
     {
         Prices = prices;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "OptimalPrice{" +
-            "Prices='" + Prices + '\'' +
-            '}';
     }
 }

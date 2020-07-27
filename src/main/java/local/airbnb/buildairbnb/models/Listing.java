@@ -45,6 +45,8 @@ public class Listing extends Auditable
 //         "Description_Len": 0
     private long descriptionlen;
 
+    private String price = "click for price";
+
     @Transient
     public boolean hasvalueforaccomodates = false;
 
@@ -104,6 +106,7 @@ public class Listing extends Auditable
         boolean dryer,
         boolean parking,
         long descriptionlen,
+        String price,
         User user)
     {
         this.propertytype = propertytype;
@@ -121,6 +124,7 @@ public class Listing extends Auditable
         this.dryer = dryer;
         this.parking = parking;
         this.descriptionlen = descriptionlen;
+        this.price = price;
         this.user = user;
     }
 
@@ -303,6 +307,15 @@ public class Listing extends Auditable
     {
         this.user = user;
     }
+
+    public String getPrice(){
+        return price;
+    }
+
+    public void setPrice(String price){
+        this.price = price;
+    }
+
 
     @Override
     public String toString()

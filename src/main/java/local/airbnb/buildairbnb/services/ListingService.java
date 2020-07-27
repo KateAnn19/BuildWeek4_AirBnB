@@ -21,4 +21,6 @@ public interface ListingService
     Listing findListingById(long id);
 
     Listing saveByAuth(User user, Listing list);
+
+    Listing savePrice(Listing list, String str);
 }

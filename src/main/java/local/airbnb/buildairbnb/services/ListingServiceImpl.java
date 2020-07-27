@@ -155,6 +155,35 @@ public class ListingServiceImpl implements ListingService
 
     @Transactional
     @Override
+    public Listing savePrice(Listing list, String str)
+    {
+        Listing currentListing = list;
+        currentListing.setPropertytype(list.getPropertytype());
+        currentListing.setRoomtype(list.getRoomtype());
+        currentListing.setAccomodates(list.getAccomodates());
+        currentListing.setBathrooms(list.getBathrooms());
+        currentListing.setCleanfee(list.isCleanfee());
+        currentListing.setCity(list.getCity());
+        currentListing.setLatitude(list.getLatitude());
+        currentListing.setLongitude(list.getLongitude());
+        currentListing.setReviewscoresrating(list.getReviewscoresrating());
+        currentListing.setZipcode(list.getZipcode());
+        currentListing.setBedrooms(list.getBedrooms());
+        currentListing.setBeds(list.getBeds());
+        currentListing.setDryer(list.isDryer());
+        currentListing.setParking(list.isParking());
+        currentListing.setdescriptionlen(list.getdescriptionlen());
+        currentListing.setPrice(str);
+        currentListing.setUser(list.getUser());
+
+        return listingRepo.save(currentListing);
+    }
+
+
+
+
+    @Transactional
+    @Override
     public Listing update(User user, Listing list, long id){
 
         User currentUser = user;

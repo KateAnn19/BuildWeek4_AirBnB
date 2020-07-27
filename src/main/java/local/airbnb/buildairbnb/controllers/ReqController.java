@@ -1,10 +1,14 @@
 package local.airbnb.buildairbnb.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
 import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.OptimalPrice;
+import local.airbnb.buildairbnb.repository.ListingRepository;
+import local.airbnb.buildairbnb.repository.OptimalPriceRepository;
 import local.airbnb.buildairbnb.services.ListingService;
 //import local.airbnb.buildairbnb.services.OptimalPriceService;
+import local.airbnb.buildairbnb.services.OptimalPriceService;
 import local.airbnb.buildairbnb.services.UserService;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,12 @@ import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.schema.Entry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/req")
@@ -26,7 +32,16 @@ public class ReqController
     private ListingService listingService;
 
     @Autowired
+    private ListingRepository listingRepository;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private OptimalPriceService optimalpriceService;
+
+    @Autowired
+    private OptimalPriceRepository optimalPriceRepository;
 
 //    @Autowired
 //    private OptimalPriceService optimalPriceService;
@@ -64,6 +79,7 @@ public class ReqController
     {
         RestTemplate restTemplate = new RestTemplate();
 
+
         System.out.println("THIS IS THE LIST " + list);
 
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -86,12 +102,21 @@ public class ReqController
 
         OptimalPrice price = responseEntity.getBody();
 
+        //optimalpriceService.save(list.getListingid(), price);
+
+        String stringPrice = new String(responseEntity.getBody().getPrices());
+        //Str = Str.replaceAll("[A-Z]+[:]+[a-z]+",);
+        stringPrice = stringPrice.replaceAll("[a-zA-Z]", "");
+        stringPrice = stringPrice.replaceAll("[}{:\"]", "");
+        stringPrice = stringPrice.replaceAll("[\\s+]", "");
+        System.out.println(stringPrice);
+        //System.out.println(Str.substring(10,17));
+
+        System.out.println("This is response entity " + responseEntity.getBody().getPrices());
+
         System.out.println(price);
 
-
-
-        System.out.println("This is response entity " + responseEntity);
-        System.out.println(price);
+        listingService.savePrice(list, stringPrice);
 
         return new ResponseEntity<>(price, HttpStatus.OK);
     }

@@ -1,5 +1,8 @@
 package local.airbnb.buildairbnb.services;
 
-//public interface OptimalPriceService
-//{
-//}
+import local.airbnb.buildairbnb.models.OptimalPrice;
+
+public interface OptimalPriceService
+{
+    OptimalPrice save(long id, OptimalPrice price);
+}
