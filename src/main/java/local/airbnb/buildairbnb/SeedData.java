@@ -200,7 +200,7 @@ public class SeedData implements CommandLineRunner
          ************/
 //        String propertytype, String roomtype, int accomodates, int bathrooms, boolean cleanfee,
 //        String city, int latitude, int longitude, int reviewscoresrating, long zipcode, int bedrooms,
-//        int beds, boolean dryer, boolean parking, long descriptionLen, User user
+//        int beds, boolean dryer, boolean parking, long descriptionlen, User user
 
 
 

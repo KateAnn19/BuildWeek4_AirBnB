@@ -6,27 +6,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "listing")
+@JsonIgnoreProperties(value = "hasvalueforaccomodates, hasvalueforbathrooms, hasvalueforlatitude" +
+    "hasvalueforlongitude, hasvalueforreviewscore, hasvalueforzipcode, hasvalueforbedrooms, hasvalueforbeds, hasvaluefordescriptionlen", ignoreUnknown = true)
 public class Listing extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long listingid;
-
-//     "property_type": "apartment",
-//         "room_type": "string",
-//         "accomodates": 1,
-//         "bathrooms": 0,
-//         "clean_fee": true,
-//         "city": "string",
-//         "latitude": 0,
-//         "longitude": 0,
-//         "review_scores_rating": 0,
-//         "zipcode": 34882,
-//         "bedrooms": 0,
-//         "beds": 0,
-//         "Dryer": true,
-//         "Parking": true,
-//         "Description_Len": 0
 
 //        "property_type": "string",
     private String propertytype;
@@ -57,12 +43,46 @@ public class Listing extends Auditable
 //         "Parking": true,
     private boolean parking = false;
 //         "Description_Len": 0
-    private long descriptionLen;
+    private long descriptionlen;
+
+    @Transient
+    public boolean hasvalueforaccomodates = false;
+
+    @Transient
+    public boolean hasvalueforbathrooms = false;
+
+    @Transient
+    public boolean hasvalueforlatitude = false;
+
+    @Transient
+    public boolean hasvalueforlongitude = false;
+
+    @Transient
+    public boolean hasvalueforreviewscore = false;
+
+
+    @Transient
+    public boolean hasvalueforzipcode = false;
+
+    @Transient
+    public boolean hasvalueforbedrooms = false;
+
+    @Transient
+    public boolean hasvalueforbeds = false;
+
+    @Transient
+    public boolean hasvaluefordescriptionlen = false;
+
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false) //this adds a foreign key to telephone // zooid is the field in zoo
     @JsonIgnoreProperties(value = "list", allowSetters = true) //fields inside user
     private User user; //single user it relates to
+
+//    @OneToOne
+//    @JoinColumn(name = "listingid", nullable = false) //this adds a foreign key to telephone // zooid is the field in zoo
+//    @JsonIgnoreProperties(value = "list", allowSetters = true) //fields inside user
+//    private OptimalPrice price; //single user it relates to
 
     public Listing()
     {
@@ -83,7 +103,7 @@ public class Listing extends Auditable
         int beds,
         boolean dryer,
         boolean parking,
-        long descriptionLen,
+        long descriptionlen,
         User user)
     {
         this.propertytype = propertytype;
@@ -100,7 +120,7 @@ public class Listing extends Auditable
         this.beds = beds;
         this.dryer = dryer;
         this.parking = parking;
-        this.descriptionLen = descriptionLen;
+        this.descriptionlen = descriptionlen;
         this.user = user;
     }
 
@@ -141,6 +161,7 @@ public class Listing extends Auditable
 
     public void setAccomodates(int accomodates)
     {
+        hasvalueforaccomodates = true;
         this.accomodates = accomodates;
     }
 
@@ -151,6 +172,7 @@ public class Listing extends Auditable
 
     public void setBathrooms(int bathrooms)
     {
+        hasvalueforbathrooms = true;
         this.bathrooms = bathrooms;
     }
 
@@ -181,16 +203,19 @@ public class Listing extends Auditable
 
     public void setLatitude(int latitude)
     {
+        hasvalueforlatitude = true;
         this.latitude = latitude;
     }
 
     public int getLongitude()
     {
+
         return longitude;
     }
 
     public void setLongitude(int longitude)
     {
+        hasvalueforlongitude = true;
         this.longitude = longitude;
     }
 
@@ -201,6 +226,7 @@ public class Listing extends Auditable
 
     public void setReviewscoresrating(int reviewscoresrating)
     {
+        hasvalueforreviewscore = true;
         this.reviewscoresrating = reviewscoresrating;
     }
 
@@ -211,6 +237,7 @@ public class Listing extends Auditable
 
     public void setZipcode(long zipcode)
     {
+        hasvalueforzipcode = true;
         this.zipcode = zipcode;
     }
 
@@ -221,6 +248,7 @@ public class Listing extends Auditable
 
     public void setBedrooms(int bedrooms)
     {
+        hasvalueforbedrooms = true;
         this.bedrooms = bedrooms;
     }
 
@@ -231,6 +259,7 @@ public class Listing extends Auditable
 
     public void setBeds(int beds)
     {
+        hasvalueforbeds = true;
         this.beds = beds;
     }
 
@@ -254,14 +283,15 @@ public class Listing extends Auditable
         this.parking = parking;
     }
 
-    public long getDescriptionLen()
+    public long getdescriptionlen()
     {
-        return descriptionLen;
+        return descriptionlen;
     }
 
-    public void setDescriptionLen(long descriptionLen)
+    public void setdescriptionlen(long descriptionlen)
     {
-        this.descriptionLen = descriptionLen;
+        hasvaluefordescriptionlen = true;
+        this.descriptionlen = descriptionlen;
     }
 
     public User getUser()
@@ -293,7 +323,7 @@ public class Listing extends Auditable
             ", beds=" + beds +
             ", dryer=" + dryer +
             ", parking=" + parking +
-            ", descriptionLen=" + descriptionLen +
+            ", descriptionlen=" + descriptionlen +
             ", user=" + user +
             '}';
     }

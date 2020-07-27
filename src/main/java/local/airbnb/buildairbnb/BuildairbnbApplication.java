@@ -1,5 +1,8 @@
 package local.airbnb.buildairbnb;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import local.airbnb.buildairbnb.models.OptimalPrice;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,6 +44,7 @@ public class BuildairbnbApplication
 
     public static void main(String[] args)
     {
+
 
         if(!stop){
             SpringApplication.run(BuildairbnbApplication.class,

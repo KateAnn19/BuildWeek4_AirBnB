@@ -37,8 +37,7 @@ public class UseremailController
     public ResponseEntity<?> listAllUseremails()
     {
         List<Useremail> allUserEmails = useremailService.findAll();
-        return new ResponseEntity<>(allUserEmails,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(allUserEmails, HttpStatus.OK);
     }
 
     /**
@@ -55,8 +54,7 @@ public class UseremailController
                     Long useremailId)
     {
         Useremail ue = useremailService.findUseremailById(useremailId);
-        return new ResponseEntity<>(ue,
-                                    HttpStatus.OK);
+        return new ResponseEntity<>(ue, HttpStatus.OK);
     }
 
     /**
