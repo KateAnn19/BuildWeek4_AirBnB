@@ -112,7 +112,7 @@
     </dependencies>
 
     <build>
-        <finalName>build-airbnb</finalName>
+        <finalName>kmcgeeka-airbnboptimal</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
