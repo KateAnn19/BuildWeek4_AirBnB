@@ -37,10 +37,10 @@ public class ListingServiceImpl implements ListingService
 
     @Transactional
     @Override
-    public void delete(User user, long id)
+    public void delete(User u, long id)
     {
         List<Listing> myList = new ArrayList<>();
-        for (Listing l : user.getList())
+        for (Listing l : u.getList())
         {
             if(l.getListingid() == id)
             {
@@ -53,9 +53,9 @@ public class ListingServiceImpl implements ListingService
             throw new ResourceNotFoundException("This user does not have this listing " + id);
         }
 
-        if (listingRepo.findById(id)
-            .isPresent())
+        if (listingRepo.findById(id).isPresent())
         {
+
             listingRepo.deleteById(id);
         } else
         {
@@ -85,7 +85,7 @@ public class ListingServiceImpl implements ListingService
         return list;
     }
 
-
+    @Transactional
     @Override
     public Listing saveByAuth(User user, Listing list, String str)
     {
@@ -101,25 +101,20 @@ public class ListingServiceImpl implements ListingService
                 .orElseThrow(() -> new ResourceNotFoundException("Listing id " + list.getListingid() + " not found!"));
         }
 
-        // String propertytype, String roomtype, int accomodates, int bathrooms, boolean cleanfee, String city,
-        //        int latitude, int longitude, int reviewscoresrating, long zipcode, int bedrooms, int beds, boolean dryer,
-        //        boolean parking, long descriptionlen, User user
 
-        newListing.setPropertytype(list.getPropertytype());
         newListing.setRoomtype(list.getRoomtype());
         newListing.setAccomodates(list.getAccomodates());
         newListing.setBathrooms(list.getBathrooms());
-        newListing.setCleanfee(list.isCleanfee());
         newListing.setCity(list.getCity());
         newListing.setLatitude(list.getLatitude());
         newListing.setLongitude(list.getLongitude());
         newListing.setReviewscoresrating(list.getReviewscoresrating());
-        newListing.setZipcode(list.getZipcode());
         newListing.setBedrooms(list.getBedrooms());
         newListing.setBeds(list.getBeds());
-        newListing.setDryer(list.isDryer());
-        newListing.setParking(list.isParking());
-        newListing.setdescriptionlen(list.getdescriptionlen());
+        newListing.setTv(list.getTv());
+        newListing.setStreetaddress(list.getStreetaddress());
+        newListing.setZipcode(list.getZipcode());
+
         newListing.setPrice(str);
         newListing.setUser(user);
 
@@ -139,25 +134,20 @@ public class ListingServiceImpl implements ListingService
                 .orElseThrow(() -> new ResourceNotFoundException("Listing id " + list.getListingid() + " not found!"));
         }
 
-// String propertytype, String roomtype, int accomodates, int bathrooms, boolean cleanfee, String city,
-//        int latitude, int longitude, int reviewscoresrating, long zipcode, int bedrooms, int beds, boolean dryer,
-//        boolean parking, long descriptionlen, User user
 
-        newListing.setPropertytype(list.getPropertytype());
+
         newListing.setRoomtype(list.getRoomtype());
         newListing.setAccomodates(list.getAccomodates());
         newListing.setBathrooms(list.getBathrooms());
-        newListing.setCleanfee(list.isCleanfee());
         newListing.setCity(list.getCity());
         newListing.setLatitude(list.getLatitude());
         newListing.setLongitude(list.getLongitude());
         newListing.setReviewscoresrating(list.getReviewscoresrating());
-        newListing.setZipcode(list.getZipcode());
         newListing.setBedrooms(list.getBedrooms());
         newListing.setBeds(list.getBeds());
-        newListing.setDryer(list.isDryer());
-        newListing.setParking(list.isParking());
-        newListing.setdescriptionlen(list.getdescriptionlen());
+        newListing.setTv(list.getTv());
+        newListing.setStreetaddress(list.getStreetaddress());
+        newListing.setZipcode(list.getZipcode());
         newListing.setUser(currentUser);
 
         return listingRepo.save(newListing);
@@ -168,21 +158,18 @@ public class ListingServiceImpl implements ListingService
     public Listing savePrice(Listing list, String str)
     {
         Listing currentListing = list;
-        currentListing.setPropertytype(list.getPropertytype());
-        currentListing.setRoomtype(list.getRoomtype());
-        currentListing.setAccomodates(list.getAccomodates());
-        currentListing.setBathrooms(list.getBathrooms());
-        currentListing.setCleanfee(list.isCleanfee());
-        currentListing.setCity(list.getCity());
-        currentListing.setLatitude(list.getLatitude());
-        currentListing.setLongitude(list.getLongitude());
-        currentListing.setReviewscoresrating(list.getReviewscoresrating());
-        currentListing.setZipcode(list.getZipcode());
-        currentListing.setBedrooms(list.getBedrooms());
-        currentListing.setBeds(list.getBeds());
-        currentListing.setDryer(list.isDryer());
-        currentListing.setParking(list.isParking());
-        currentListing.setdescriptionlen(list.getdescriptionlen());
+         currentListing.setRoomtype(list.getRoomtype());
+         currentListing.setAccomodates(list.getAccomodates());
+         currentListing.setBathrooms(list.getBathrooms());
+         currentListing.setCity(list.getCity());
+         currentListing.setLatitude(list.getLatitude());
+         currentListing.setLongitude(list.getLongitude());
+         currentListing.setReviewscoresrating(list.getReviewscoresrating());
+         currentListing.setBedrooms(list.getBedrooms());
+         currentListing.setBeds(list.getBeds());
+         currentListing.setTv(list.getTv());
+         currentListing.setStreetaddress(list.getStreetaddress());
+         currentListing.setZipcode(list.getZipcode());
         currentListing.setPrice(str);
         currentListing.setUser(list.getUser());
 
@@ -201,10 +188,18 @@ public class ListingServiceImpl implements ListingService
             Listing currentListing = listingRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Listing id " + id + " not found!"));
 
-            if (list.getPropertytype() != null)
-            {
-                currentListing.setPropertytype(list.getPropertytype());
-            }
+        //    "roomtype": "string",
+        //    "accommodates": 0,
+        //    "bathrooms": 0,
+        //    "city": "string",
+        //    "latitude": 0,
+        //    "longitude": 0,
+        //    "reviewscoresrating": 0,
+        //    "bedrooms": 0,
+        //    "beds": 0,
+        //    "tv": 0,
+        //    "steetaddress": "string",
+        //    "zipcode" : 0
 
             if (list.getRoomtype() != null)
             {
@@ -221,10 +216,6 @@ public class ListingServiceImpl implements ListingService
                 currentListing.setBathrooms(list.getBathrooms());
             }
 
-            if(list.isCleanfee() != currentListing.isCleanfee())
-            {
-                currentListing.setCleanfee(!currentListing.isCleanfee());
-            }
 
         if(list.getCity() != null)
         {
@@ -259,19 +250,10 @@ public class ListingServiceImpl implements ListingService
             currentListing.setBeds(list.getBeds()); //number
         }
 
-        if(list.isDryer() != currentListing.isDryer())
-        {
-            currentListing.setDryer(!currentListing.isDryer());
-        }
 
-        if(list.isParking() != currentListing.isParking())
+        if(list.hasvaluefortv)
         {
-            currentListing.setParking(!currentListing.isDryer());
-        }
-
-        if(list.hasvaluefordescriptionlen)
-        {
-            currentListing.setdescriptionlen(list.getdescriptionlen()); //number
+            currentListing.setTv(list.getTv()); //number
         }
 
         //ds endpoint

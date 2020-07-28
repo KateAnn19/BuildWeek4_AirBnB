@@ -1,5 +1,6 @@
 package local.airbnb.buildairbnb.controllers;
 
+import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
 import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.OptimalPrice;
 import local.airbnb.buildairbnb.models.User;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -121,7 +123,32 @@ public class ListingController
             long listingid)
     {
         User u = userService.findByName(authentication.getName());
+        List<Listing> userList = new ArrayList<>();
+        System.out.println(authentication.getName());
 
+        System.out.println(u.getRoles());
+        System.out.println(u.toString());
+        System.out.println("This is listing id" + listingid);
+
+        if(u.getList().size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+
+        for (Listing l : u.getList())
+        {
+            if(l.getListingid() == listingid)
+            {
+                userList.add(l);
+                System.out.println("this is listing" + l);
+            }
+        }
+
+        System.out.println(userList.size());
+
+        if(userList.size() < 1){
+            System.out.println("DID IT COME HERE?");
+             throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+        }
+
+        System.out.println("WEIRD");
       //ds endpoint
 
 
@@ -132,10 +159,42 @@ public class ListingController
     }
 
 
+//    @DeleteMapping(value = "/delete/{listingid}")
+//    public ResponseEntity<?> deleteUserListingById( @PathVariable long listingid)
+//    {
+//        listingService.delete(listingid);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+
     @DeleteMapping(value = "/delete/{listingid}")
     public ResponseEntity<?> deleteUserListingById(Authentication authentication, @PathVariable long listingid)
     {
         User u = userService.findByName(authentication.getName());
+
+        List<Listing> userList = new ArrayList<>();
+        System.out.println(authentication.getName());
+
+        System.out.println(u.getRoles());
+        System.out.println(u.toString());
+        System.out.println("This is listing id" + listingid);
+
+        if(u.getList().size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+
+        for (Listing l : u.getList())
+        {
+            if(l.getListingid() == listingid)
+            {
+                userList.add(l);
+                System.out.println("this is listing" + l);
+            }
+        }
+
+        System.out.println(userList.size());
+
+        if(userList.size() < 1){
+            System.out.println("DID IT COME HERE?");
+            throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+        }
 
 
         listingService.delete(u, listingid);

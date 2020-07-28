@@ -116,30 +116,26 @@ public class UserServiceImpl
                                        ue.getUseremail()));
         }
 
-//        newListing.setPropertytype(list.getPropertytype());
-//        newListing.setRoomtype(list.getRoomtype());
-//        newListing.setAccomodates(list.getAccomodates());
-//        newListing.setBathrooms(list.getBathrooms());
-//        newListing.setCleanfee(list.isCleanfee());
-//        newListing.setCity(list.getCity());
-//        newListing.setLatitude(list.getLatitude());
-//        newListing.setLongitude(list.getLongitude());
-//        newListing.setReviewscoresrating(list.getReviewscoresrating());
-//        newListing.setZipcode(list.getZipcode());
-//        newListing.setBedrooms(list.getBedrooms());
-//        newListing.setBeds(list.getBeds());
-//        newListing.setDryer(list.isDryer());
-//        newListing.setParking(list.isParking());
-//        newListing.setdescriptionlen(list.getdescriptionlen());
-//        newListing.setUser(list.getUser()
 
         newUser.getList().clear();
         for(Listing li : user.getList())
         {
-            newUser.getList().add(new Listing(li.getPropertytype(), li.getRoomtype(),
-                li.getAccomodates(), li.getBathrooms(), li.isCleanfee(),li.getCity(),
-                li.getLatitude(), li.getLongitude(), li.getReviewscoresrating(), li.getZipcode(),
-                li.getBedrooms(), li.getBeds(), li.isDryer(), li.isParking(), li.getdescriptionlen(), li.getPrice(),newUser));
+            //    "roomtype": "string",
+            //    "accommodates": 0,
+            //    "bathrooms": 0,
+            //    "city": "string",
+            //    "latitude": 0,
+            //    "longitude": 0,
+            //    "reviewscoresrating": 0,
+            //    "bedrooms": 0,
+            //    "beds": 0,
+            //    "tv": 0,
+            //    "steetaddress": "string",
+            //    "zipcode" : 0
+            newUser.getList().add(new Listing(li.getRoomtype(),
+                li.getAccomodates(), li.getBathrooms(), li.getCity(),
+                li.getLatitude(), li.getLongitude(), li.getReviewscoresrating(), li.getBedrooms(), li.getBeds(),li.getTv(),li.getStreetaddress(),li.getZipcode(),
+                li.getPrice(),newUser));
         }
 
         return userrepos.save(newUser);

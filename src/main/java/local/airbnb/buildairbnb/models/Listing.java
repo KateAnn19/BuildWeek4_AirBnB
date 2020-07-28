@@ -6,23 +6,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "listing")
-@JsonIgnoreProperties(value = {"hasvalueforaccomodates", "hasvalueforbathrooms", "hasvalueforlatitude", "hasvalueforlongitude", "hasvalueforreviewscore", "hasvalueforzipcode", "hasvalueforbedrooms", "hasvalueforbeds", "hasvaluefordescriptionlen"}, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"hasvalueforaccomodates", "hasvalueforbathrooms", "hasvalueforlatitude", "hasvalueforlongitude", "hasvalueforreviewscore", "hasvalueforzipcode", "hasvalueforbedrooms", "hasvalueforbeds", "hasvaluefortv"}, ignoreUnknown = true)
 public class Listing extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long listingid;
 
-//        "property_type": "string",
-    private String propertytype;
+
 //         "room_type": "string",
     private String roomtype;
 //         "accomodates": 0,
     private int accomodates;
 //         "bathrooms": 0,
     private int bathrooms;
-//         "clean_fee": true,
-    private boolean cleanfee = false;
+
 //         "city": "string",
     private String city;
 //         "latitude": 0,
@@ -31,18 +29,14 @@ public class Listing extends Auditable
     private int longitude;
 //         "review_scores_rating": 0,
     private int reviewscoresrating;
-//         "zipcode": 0,
-    private long zipcode;
-//         "bedrooms": 0,
+    //         "bedrooms": 0,
     private int bedrooms;
-//         "beds": 0,
+    //         "beds": 0,
     private int beds;
-//         "Dryer": true,
-    private boolean dryer = false;
-//         "Parking": true,
-    private boolean parking = false;
-//         "Description_Len": 0
-    private long descriptionlen;
+    private int tv;
+    private String streetaddress;
+    //         "zipcode": 0,
+    private long zipcode;
 
     private String price = "click for price"; //double
 
@@ -72,7 +66,7 @@ public class Listing extends Auditable
     public boolean hasvalueforbeds = false;
 
     @Transient
-    public boolean hasvaluefordescriptionlen = false;
+    public boolean hasvaluefortv = false;
 
 
     @ManyToOne
@@ -90,39 +84,34 @@ public class Listing extends Auditable
     }
 
     public Listing(
-        String propertytype,
         String roomtype,
         int accomodates,
         int bathrooms,
-        boolean cleanfee,
         String city,
         int latitude,
         int longitude,
         int reviewscoresrating,
-        long zipcode,
         int bedrooms,
         int beds,
-        boolean dryer,
-        boolean parking,
-        long descriptionlen,
+        int tv,
+        String streetaddress,
+        long zipcode,
         String price,
         User user)
     {
-        this.propertytype = propertytype;
+        this.listingid = listingid;
         this.roomtype = roomtype;
         this.accomodates = accomodates;
         this.bathrooms = bathrooms;
-        this.cleanfee = cleanfee;
         this.city = city;
         this.latitude = latitude;
         this.longitude = longitude;
         this.reviewscoresrating = reviewscoresrating;
-        this.zipcode = zipcode;
         this.bedrooms = bedrooms;
         this.beds = beds;
-        this.dryer = dryer;
-        this.parking = parking;
-        this.descriptionlen = descriptionlen;
+        this.tv = tv;
+        this.streetaddress = streetaddress;
+        this.zipcode = zipcode;
         this.price = price;
         this.user = user;
     }
@@ -135,16 +124,6 @@ public class Listing extends Auditable
     public void setListingid(long listingid)
     {
         this.listingid = listingid;
-    }
-
-    public String getPropertytype()
-    {
-        return propertytype;
-    }
-
-    public void setPropertytype(String propertytype)
-    {
-        this.propertytype = propertytype;
     }
 
     public String getRoomtype()
@@ -179,16 +158,6 @@ public class Listing extends Auditable
         this.bathrooms = bathrooms;
     }
 
-    public boolean isCleanfee()
-    {
-        return cleanfee;
-    }
-
-    public void setCleanfee(boolean cleanfee)
-    {
-        this.cleanfee = cleanfee;
-    }
-
     public String getCity()
     {
         return city;
@@ -212,7 +181,6 @@ public class Listing extends Auditable
 
     public int getLongitude()
     {
-
         return longitude;
     }
 
@@ -231,17 +199,6 @@ public class Listing extends Auditable
     {
         hasvalueforreviewscore = true;
         this.reviewscoresrating = reviewscoresrating;
-    }
-
-    public long getZipcode()
-    {
-        return zipcode;
-    }
-
-    public void setZipcode(long zipcode)
-    {
-        hasvalueforzipcode = true;
-        this.zipcode = zipcode;
     }
 
     public int getBedrooms()
@@ -266,35 +223,47 @@ public class Listing extends Auditable
         this.beds = beds;
     }
 
-    public boolean isDryer()
+    public int getTv()
     {
-        return dryer;
+
+        return tv;
     }
 
-    public void setDryer(boolean dryer)
+    public void setTv(int tv)
     {
-        this.dryer = dryer;
+        hasvaluefortv=true;
+        this.tv = tv;
     }
 
-    public boolean isParking()
+    public String getStreetaddress()
     {
-        return parking;
+        return streetaddress;
     }
 
-    public void setParking(boolean parking)
+    public void setStreetaddress(String streetaddress)
     {
-        this.parking = parking;
+        this.streetaddress = streetaddress;
     }
 
-    public long getdescriptionlen()
+    public long getZipcode()
     {
-        return descriptionlen;
+        return zipcode;
     }
 
-    public void setdescriptionlen(long descriptionlen)
+    public void setZipcode(long zipcode)
     {
-        hasvaluefordescriptionlen = true;
-        this.descriptionlen = descriptionlen;
+        hasvalueforzipcode = true;
+        this.zipcode = zipcode;
+    }
+
+    public String getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(String price)
+    {
+        this.price = price;
     }
 
     public User getUser()
@@ -307,36 +276,4 @@ public class Listing extends Auditable
         this.user = user;
     }
 
-    public String getPrice(){
-        return price;
-    }
-
-    public void setPrice(String price){
-        this.price = price;
-    }
-
-
-    @Override
-    public String toString()
-    {
-        return "Listing{" +
-            "listingid=" + listingid +
-            ", propertytype='" + propertytype + '\'' +
-            ", roomtype='" + roomtype + '\'' +
-            ", accomodates=" + accomodates +
-            ", bathrooms=" + bathrooms +
-            ", cleanfee=" + cleanfee +
-            ", city='" + city + '\'' +
-            ", latitude=" + latitude +
-            ", longitude=" + longitude +
-            ", reviewscoresrating=" + reviewscoresrating +
-            ", zipcode=" + zipcode +
-            ", bedrooms=" + bedrooms +
-            ", beds=" + beds +
-            ", dryer=" + dryer +
-            ", parking=" + parking +
-            ", descriptionlen=" + descriptionlen +
-            ", user=" + user +
-            '}';
-    }
 }

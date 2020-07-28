@@ -1,6 +1,7 @@
 package local.airbnb.buildairbnb.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -52,6 +53,17 @@ public class ResourceServerConfig
                              "/webjars/**",
                              "/createnewuser")
                 .permitAll()
+                .antMatchers(HttpMethod.POST,
+                "/users/**")
+                .hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,
+                "/users/**")
+                .hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,
+                "/users/**")
+                .hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/listings/**")
+                .authenticated()
                 .antMatchers("/users/**",
                              "/useremails/**","/listings/**",
                              "/oauth/revoke-token",

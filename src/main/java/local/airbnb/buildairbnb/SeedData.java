@@ -69,23 +69,34 @@ public class SeedData implements CommandLineRunner
         u1.getUseremails().add(new Useremail(u1, "admin@email.local"));
         u1.getUseremails().add(new Useremail(u1, "admin@mymail.local"));
 
+        //    "roomtype": "string",
+        //    "accommodates": 0,
+        //    "bathrooms": 0,
+        //    "city": "string",
+        //    "latitude": 0,
+        //    "longitude": 0,
+        //    "reviewscoresrating": 0,
+        //    "bedrooms": 0,
+        //    "beds": 0,
+        //    "tv": 0,
+        //    "steetaddress": "string",
+        //    "zipcode" : 0
+
+
         Listing l1 = new Listing(
-            "house",
-            "whole house",
+            "master",
             3,
-            3,
-            true,
-            "los angeles",
-            3,
-            3,
-            10,
-            20304,
             2,
-            3,
-            true,
-            true,
-            30,
-            "0",
+            "boulder",
+            0,
+            0,
+            4,
+            2,
+            2,
+            1,
+            "123 fun lane",
+            2345,
+            "click for price",
             u1);
         u1.getList().add(l1);
 
@@ -99,19 +110,20 @@ public class SeedData implements CommandLineRunner
         u2.getUseremails().add(new Useremail(u2, "bunny@email.local"));
 
 
-                Listing l2 = new Listing("house", "single room", 3,
+                Listing l2 = new Listing(
+                    "guest",
                     3,
-                    true,
-                    "los angeles",
-                    3,
-                    3,
-                    10,
-                    20304,
                     2,
-                    3,
-                    true,
-                    true,
-                    30,"0",
+                    "louisville",
+                    0,
+                    0,
+                    4,
+                    2,
+                    2,
+                    1,
+                    "456 Graham Drive",
+                    12345,
+                    "click for price",
                     u2);
 
         u2.getList().add(l2);
@@ -123,19 +135,20 @@ public class SeedData implements CommandLineRunner
         u3.getRoles().add(new UserRoles(u3, r2));
         u3.getUseremails().add(new Useremail(u3, "barnbarn@email.local"));
 
-                Listing l3 = new Listing("apartment", "whole house", 3,
+                Listing l3 = new Listing(
+                    "master",
                     3,
-                    true,
-                    "los angeles",
-                    3,
-                    3,
-                    10,
-                    20304,
                     2,
-                    3,
-                    true,
-                    true,
-                    30,"0",
+                    "charlotte",
+                    0,
+                    0,
+                    4,
+                    2,
+                    2,
+                    1,
+                    "89 Rainbow Rd",
+                    74102,
+                    "click for price",
                     u3);
         u3.getList().add(l3);
         userService.save(u3);
@@ -143,34 +156,35 @@ public class SeedData implements CommandLineRunner
         User u4 = new User("puttat", "password", "puttat@school.lambda");
         u4.getRoles().add(new UserRoles(u4, r2));
 
-                Listing l4 = new Listing("apartment", "single room",
+                Listing l4 = new Listing(
+                    "gues en suite",
                     3,
-                    3,
-                    true,
-                    "los angeles",
-                    3,
-                    3,
-                    10,
-                    20304,
                     2,
-                    3,
-                    true,
-                    true,
-                    30,"0",
+                    "los angeles",
+                    0,
+                    0,
+                    4,
+                    2,
+                    2,
+                    1,
+                    "42 Galaxy Circle",
+                    87695,
+                    "click for price",
                     u4);
-                Listing l5 = new Listing("loft", "single room", 3,
+                Listing l5 = new Listing(
+                    "small room",
                     3,
-                    true,
-                    "los angeles",
-                    3,
-                    3,
-                    10,
-                    20304,
                     2,
-                    3,
-                    true,
-                    true,
-                    30,"0",
+                    "Ft. Worth",
+                    0,
+                    0,
+                    4,
+                    2,
+                    2,
+                    1,
+                    "90 Nothing Lane",
+                    98732,
+                    "click for price",
                     u4);
         u4.getList().add(l4);
         u4.getList().add(l5);
@@ -178,20 +192,20 @@ public class SeedData implements CommandLineRunner
 
         User u5 = new User("misskitty", "password", "misskitty@school.lambda");
         u5.getRoles().add(new UserRoles(u5, r2));
-                Listing l6 = new Listing("house", "single room",
+                Listing l6 = new Listing(
+                    "whole house",
                     3,
-                    3,
-                    true,
-                    "los angeles",
-                    3,
-                    3,
-                    10,
-                    20304,
                     2,
-                    3,
-                    false,
-                    false,
-                    30,"0",
+                    "boston",
+                    0,
+                    0,
+                    4,
+                    2,
+                    2,
+                    1,
+                    "987 Ocean Street",
+                    9935,
+                    "click for price",
                     u5);
         u5.getList().add(l6);
         userService.save(u5);
