@@ -91,15 +91,15 @@ public class OpenController
 
         //
         // You cannot use a port when on Heroku
-//        String port = "";
-//        if (httpServletRequest.getServerName()
-//            .equalsIgnoreCase("localhost"))
-//        {
-//            port = ":" + httpServletRequest.getLocalPort();
-//        }
-//        String requestURI = "http://" + httpServletRequest.getServerName() + port + "/login";
+        String port = "";
+        if (httpServletRequest.getServerName()
+            .equalsIgnoreCase("localhost"))
+        {
+            port = ":" + httpServletRequest.getLocalPort();
+        }
+        String requestURI = "http://" + httpServletRequest.getServerName() + port + "/login";
         //
-       String requestURI = "http://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/login";
+       //String requestURI = "http://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getLocalPort() + "/login";
 
         List<MediaType> acceptableMediaTypes = new ArrayList<>();
         acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
