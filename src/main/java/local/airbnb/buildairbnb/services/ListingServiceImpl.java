@@ -52,6 +52,12 @@ public class ListingServiceImpl implements ListingService
 
 
     @Override
+    public List<Listing> findByUser_UsernameIgnoringCase(String name){
+        return listingRepo.findByUser_UsernameIgnoringCase(name);
+    }
+
+
+    @Override
     public Listing findListingById(long id)
     {
         return listingRepo.findById(id)

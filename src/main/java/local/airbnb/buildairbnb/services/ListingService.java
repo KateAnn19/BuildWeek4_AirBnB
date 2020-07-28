@@ -23,4 +23,6 @@ public interface ListingService
     Listing saveByAuth(User user, Listing list, String str);
 
     Listing savePrice(Listing list, String str);
+
+    List<Listing> findByUser_UsernameIgnoringCase(String name);
 }

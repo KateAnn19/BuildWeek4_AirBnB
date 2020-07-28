@@ -13,6 +13,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -167,37 +168,45 @@ public class ListingController
 //    }
 
     @DeleteMapping(value = "/delete/{listingid}")
-    public ResponseEntity<?> deleteUserListingById(@PathVariable long listingid)
+    public ResponseEntity<?> deleteUserListingById(Authentication authentication, @PathVariable long listingid)
     {
-//        User u = userService.findByName(authentication.getName());
-//
-//        List<Listing> userList = new ArrayList<>();
-//        System.out.println(authentication.getName());
-//
-//        System.out.println(u.getRoles());
-//        System.out.println(u.toString());
-//        System.out.println("This is listing id" + listingid);
-//
-//        if(u.getList().size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
-//
-//        for (Listing l : u.getList())
-//        {
-//            if(l.getListingid() == listingid)
-//            {
-//                userList.add(l);
-//                System.out.println("this is listing" + l);
-//            }
-//        }
-//
-//        System.out.println(userList.size());
-//
-//        if(userList.size() < 1){
-//            System.out.println("DID IT COME HERE?");
-//            throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
-//        }
+        if (authentication.getAuthorities()
+            .contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
+        {
+            listingService.delete(listingid);
+            // this user is an admin
+        } else
+        {
+            List<Listing> myList = listingService.findByUser_UsernameIgnoringCase(authentication.getName());
+
+            List<Listing> userList = new ArrayList<>();
+            //        //System.out.println(authentication.getName());
+            //
+            System.out.println(authentication.getAuthorities());
 
 
-        listingService.delete(listingid);
+            if(myList.size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+            //
+            for (Listing l : myList)
+            {
+                if(l.getListingid() == listingid)
+                {
+                    System.out.println(l.toString());
+                    userList.add(l);
+                    System.out.println("this is listing" + l);
+                }
+            }
+            //
+            //        System.out.println(userList.size());
+            //
+            if(userList.size() < 1){
+                System.out.println("DID IT COME HERE?");
+                throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+            }
+
+            listingService.delete(listingid);
+            // not an admin
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
