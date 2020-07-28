@@ -1,11 +1,15 @@
 package local.airbnb.buildairbnb.controllers;
 
+import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
+import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.User;
+import local.airbnb.buildairbnb.models.UserRoles;
 import local.airbnb.buildairbnb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,7 +17,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The entry point for clients to access user data
@@ -50,6 +57,7 @@ public class UserController
      * @return JSON object of the user you seek
      * @see UserService#findUserById(long) UserService.findUserById(long)
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(value = "/user/{userId}",
             produces = "application/json")
     public ResponseEntity<?> getUserById(@PathVariable Long userId)
@@ -66,6 +74,7 @@ public class UserController
      * @return JSON object of the user you seek
      * @see UserService#findByName(String) UserService.findByName(String)
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(value = "/user/name/{userName}", produces = "application/json")
     public ResponseEntity<?> getUserByName(@PathVariable String userName)
     {
@@ -81,6 +90,7 @@ public class UserController
      * @return A JSON list of users you seek
      * @see UserService#findByNameContaining(String) UserService.findByNameContaining(String)
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping(value = "/user/name/like/{userName}", produces = "application/json")
     public ResponseEntity<?> getUserLikeName(@PathVariable String userName)
     {
@@ -107,6 +117,7 @@ public class UserController
      * @throws URISyntaxException Exception if something does not work in creating the location header
      * @see //UserService#save(User) UserService.save(User)
      */
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(value = "/user",
             consumes = "application/json")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User newuser) throws URISyntaxException
@@ -139,8 +150,12 @@ public class UserController
      * @see //UserService#save(User) UserService.save(User)
      */
     @PutMapping(value = "/user/{userid}", consumes = "application/json")
-    public ResponseEntity<?> updateFullUser(@Valid @RequestBody User updateUser, @PathVariable long userid)
+    public ResponseEntity<?> updateFullUser(Authentication authentication, @Valid @RequestBody User updateUser, @PathVariable long userid)
     {
+        User u = userService.findByName(authentication.getName());
+        if(u.getUserid() != userid){
+            throw new ResourceNotFoundException("This user is not authorized to do this.");
+        }
         updateUser.setUserid(userid);
         userService.save(updateUser);
 
@@ -158,9 +173,14 @@ public class UserController
      * @return A status of OK
      * @see //UserService#update(User, long) UserService.update(User, long)
      */
+
     @PatchMapping(value = "/user/{id}", consumes = "application/json")
-    public ResponseEntity<?> updateUser(@RequestBody User updateUser, @PathVariable long id)
+    public ResponseEntity<?> updateUser(Authentication authentication, @RequestBody User updateUser, @PathVariable long id)
     {
+        User u = userService.findByName(authentication.getName());
+        if(u.getUserid() != id){
+            throw new ResourceNotFoundException("This user is not authorized to do this.");
+        }
         userService.update(updateUser, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -172,10 +192,32 @@ public class UserController
      * @param id the primary key of the user you wish to delete
      * @return Status of OK
      */
+
     @DeleteMapping(value = "/user/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable long id)
+    public ResponseEntity<?> deleteUserById(Authentication authentication, @PathVariable long id)
     {
-        userService.delete(id);
+        User u = userService.findByName(authentication.getName());
+//        Set<UserRoles> roles = new HashSet<>();
+//        roles = u.getRoles();
+//        for (UserRoles r : u.getRoles())
+//        {
+//            System.out.println("TOSTRING" + r.getRole().toString());
+//            if(r.getRole().getName() == "ADMIN")
+//            {
+//                System.out.println(r.getRole().getName());
+//
+//                userService.delete(id);
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            }
+//        }
+
+        if(u.getUserid() != id){
+            throw new ResourceNotFoundException("This user is not authorized to do this.");
+        }else
+        {
+            userService.delete(id);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -37,21 +37,8 @@ public class ListingServiceImpl implements ListingService
 
     @Transactional
     @Override
-    public void delete(User u, long id)
+    public void delete(long id)
     {
-        List<Listing> myList = new ArrayList<>();
-        for (Listing l : u.getList())
-        {
-            if(l.getListingid() == id)
-            {
-                myList.add(l);
-            }
-        }
-
-        if(myList.size() < 1)
-        {
-            throw new ResourceNotFoundException("This user does not have this listing " + id);
-        }
 
         if (listingRepo.findById(id).isPresent())
         {

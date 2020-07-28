@@ -56,21 +56,19 @@ public class ResourceServerConfig
                 .antMatchers(HttpMethod.POST,
                 "/users/**")
                 .hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,
-                "/users/**")
-                .hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,
                 "/users/**")
                 .hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/listings/**")
                 .authenticated()
-                .antMatchers("/users/**",
-                             "/useremails/**","/listings/**",
+                .antMatchers("/users/**","/listings/**",
                              "/oauth/revoke-token",
                              "/req/**",
                              "/logout")
                 .authenticated()
                 .antMatchers("/roles/**")
+                .hasAnyRole("ADMIN", "DATA")
+                .antMatchers("/useremails/**")
                 .hasAnyRole("ADMIN", "DATA")
                 .and()
                 .exceptionHandling()

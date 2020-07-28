@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ListingService
 {
-    void delete(User u, long id);
+    void delete(long id);
 
     Listing save(long userid, Listing list);
 

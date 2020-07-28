@@ -167,37 +167,37 @@ public class ListingController
 //    }
 
     @DeleteMapping(value = "/delete/{listingid}")
-    public ResponseEntity<?> deleteUserListingById(Authentication authentication, @PathVariable long listingid)
+    public ResponseEntity<?> deleteUserListingById(@PathVariable long listingid)
     {
-        User u = userService.findByName(authentication.getName());
+//        User u = userService.findByName(authentication.getName());
+//
+//        List<Listing> userList = new ArrayList<>();
+//        System.out.println(authentication.getName());
+//
+//        System.out.println(u.getRoles());
+//        System.out.println(u.toString());
+//        System.out.println("This is listing id" + listingid);
+//
+//        if(u.getList().size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+//
+//        for (Listing l : u.getList())
+//        {
+//            if(l.getListingid() == listingid)
+//            {
+//                userList.add(l);
+//                System.out.println("this is listing" + l);
+//            }
+//        }
+//
+//        System.out.println(userList.size());
+//
+//        if(userList.size() < 1){
+//            System.out.println("DID IT COME HERE?");
+//            throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
+//        }
 
-        List<Listing> userList = new ArrayList<>();
-        System.out.println(authentication.getName());
 
-        System.out.println(u.getRoles());
-        System.out.println(u.toString());
-        System.out.println("This is listing id" + listingid);
-
-        if(u.getList().size() == 0) throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
-
-        for (Listing l : u.getList())
-        {
-            if(l.getListingid() == listingid)
-            {
-                userList.add(l);
-                System.out.println("this is listing" + l);
-            }
-        }
-
-        System.out.println(userList.size());
-
-        if(userList.size() < 1){
-            System.out.println("DID IT COME HERE?");
-            throw new ResourceNotFoundException("This user does not have this listing with id " + listingid);
-        }
-
-
-        listingService.delete(u, listingid);
+        listingService.delete(listingid);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
