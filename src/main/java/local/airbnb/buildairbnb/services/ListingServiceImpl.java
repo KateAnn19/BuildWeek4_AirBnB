@@ -262,7 +262,7 @@ public class ListingServiceImpl implements ListingService
 
         System.out.println("Reached this spot");
 
-        String reqUrl = "https://testapifortesting.herokuapp.com/predict";
+        String reqUrl = "https://testapifortesting.herokuapp.com/predict2";
 
         System.out.println("made the request");
         ParameterizedTypeReference<OptimalPrice> responseType = new ParameterizedTypeReference<>() {

@@ -39,6 +39,11 @@ public class UserServiceImpl
     }
 
     @Override
+    public List<User> findByUsernameIgnoringCase(String name){
+        return userrepos.findByUsernameIgnoringCase(name);
+    }
+
+    @Override
     public List<User> findByNameContaining(String username)
     {
         return userrepos.findByUsernameContainingIgnoreCase(username.toLowerCase());

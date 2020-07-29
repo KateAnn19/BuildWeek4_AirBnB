@@ -1,5 +1,6 @@
 package local.airbnb.buildairbnb.services;
 
+import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.User;
 
 import java.util.List;
@@ -79,4 +80,6 @@ public interface UserService
      * Deletes all record and their associated records from the database
      */
     public void deleteAll();
+
+    List<User> findByUsernameIgnoringCase(String name);
 }

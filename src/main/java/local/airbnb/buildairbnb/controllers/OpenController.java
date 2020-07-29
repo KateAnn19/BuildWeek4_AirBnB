@@ -1,9 +1,12 @@
 package local.airbnb.buildairbnb.controllers;
 
 
+import local.airbnb.buildairbnb.exceptions.ResourceFoundException;
+import local.airbnb.buildairbnb.models.Listing;
 import local.airbnb.buildairbnb.models.User;
 import local.airbnb.buildairbnb.models.UserMinimum;
 import local.airbnb.buildairbnb.models.UserRoles;
+import local.airbnb.buildairbnb.repository.UserRepository;
 import local.airbnb.buildairbnb.services.RoleService;
 import local.airbnb.buildairbnb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,9 @@ public class OpenController
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepo;
+
     /**
      * A method in this controller adds a new user to the application with the role User so needs access to Role Services to do this.
      */
@@ -65,7 +71,23 @@ public class OpenController
         // Create the user
         User newuser = new User();
 
+        // ================
+        System.out.println(newminuser.getUsername());
+
+        List<User> userlist = userRepo.findByUsernameContainingIgnoreCase(newminuser.getUsername());
+
+        if(userlist.size() > 0){
+            throw new ResourceFoundException("Must be a unique username. That one is taken");
+        }
+        // ================
+
+        //List<User> user = userService.findByUsernameIgnoringCase(newminuser.getUsername());
+
+
+
+
         newuser.setUsername(newminuser.getUsername());
+
         newuser.setPassword(newminuser.getPassword());
         newuser.setPrimaryemail(newminuser.getPrimaryemail());
 
