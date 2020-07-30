@@ -47,7 +47,7 @@ public class ListingControllerTest
          */
 
         /************
-         * Seed Books
+         * Seed Users and Listings
          ************/
 
     }

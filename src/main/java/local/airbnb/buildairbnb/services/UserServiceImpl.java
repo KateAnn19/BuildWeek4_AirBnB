@@ -1,6 +1,7 @@
 package local.airbnb.buildairbnb.services;
 
 
+import local.airbnb.buildairbnb.exceptions.ResourceFoundException;
 import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
 import local.airbnb.buildairbnb.models.*;
 import local.airbnb.buildairbnb.repository.UserRepository;
@@ -39,7 +40,7 @@ public class UserServiceImpl
     }
 
     @Override
-    public List<User> findByUsernameIgnoringCase(String name){
+    public User findByUsernameIgnoringCase(String name){
         return userrepos.findByUsernameIgnoringCase(name);
     }
 
@@ -87,6 +88,10 @@ public class UserServiceImpl
     @Override
     public User save(User user)
     {
+        if (findByUsernameIgnoringCase(user.getUsername()) != null)
+        {
+            new ResourceFoundException("User already exists!");
+        }
         User newUser = new User();
 
         if (user.getUserid() != 0)

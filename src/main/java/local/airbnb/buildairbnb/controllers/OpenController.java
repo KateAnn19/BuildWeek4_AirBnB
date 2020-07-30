@@ -71,21 +71,6 @@ public class OpenController
         // Create the user
         User newuser = new User();
 
-        // ================
-        System.out.println(newminuser.getUsername());
-
-        List<User> userlist = userRepo.findByUsernameContainingIgnoreCase(newminuser.getUsername());
-
-        if(userlist.size() > 0){
-            throw new ResourceFoundException("Must be a unique username. That one is taken");
-        }
-        // ================
-
-        //List<User> user = userService.findByUsernameIgnoringCase(newminuser.getUsername());
-
-
-
-
         newuser.setUsername(newminuser.getUsername());
 
         newuser.setPassword(newminuser.getPassword());

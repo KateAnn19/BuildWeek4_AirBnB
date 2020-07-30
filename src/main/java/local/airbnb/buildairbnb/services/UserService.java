@@ -81,5 +81,5 @@ public interface UserService
      */
     public void deleteAll();
 
-    List<User> findByUsernameIgnoringCase(String name);
+    User findByUsernameIgnoringCase(String name);
 }
