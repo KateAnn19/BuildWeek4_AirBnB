@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest(classes = BuildairbnbApplication.class)
 
-@WithMockUser(username = "admin", roles={"ADMIN", "DATA"})
+@WithMockUser(username = "admin", roles={"ADMIN"})
 public class ListingControllerTest
 {
     @Autowired
