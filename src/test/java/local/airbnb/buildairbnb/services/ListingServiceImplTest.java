@@ -3,9 +3,12 @@ package local.airbnb.buildairbnb.services;
 import local.airbnb.buildairbnb.BuildairbnbApplication;
 import local.airbnb.buildairbnb.exceptions.ResourceNotFoundException;
 import local.airbnb.buildairbnb.models.Listing;
+import local.airbnb.buildairbnb.models.User;
 import local.airbnb.buildairbnb.repository.ListingRepository;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BuildairbnbApplication.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ListingServiceImplTest
 {
     @Autowired
@@ -25,6 +29,9 @@ public class ListingServiceImplTest
 
     @Autowired
     private ListingRepository listingRepository;
+
+    @Autowired
+    private UserService userService;
 
     @org.junit.Before
     public void setUp() throws Exception
@@ -56,15 +63,18 @@ public class ListingServiceImplTest
 //    @org.junit.Test
 //    public void b_findByUser_UsernameIgnoringCase()
 //    {
-//        List<Listing> myList = listingService.findAll();
-//        for (Listing l : myList)
-//        {
-//            if(l.getUser().getUsername() == "admin")
-//            {
-//                assertEquals("admin", listingRepository.findByUser_UsernameIgnoringCase("admin"));
-//            }
-//        }
 //
+////        List<Listing> myList = listingService.findAll();
+////        for (Listing l : myList)
+////        {
+////            if(l.getUser().getUsername() == "admin")
+////            {
+////                myList.add(l);
+////            }
+////        }
+////        //System.out.println(myList.get(0).getUser().getUsername() + listingService.findListingById(6).getUser().getUsername());
+////        assertEquals(1, myList.size());
+//        assertEquals("[local.airbnb.buildairbnb.models.Listing@2fc698a9]", listingService.findByUser_UsernameIgnoringCase("admin").toString());
 //
 //    }
 
@@ -89,11 +99,48 @@ public class ListingServiceImplTest
     @org.junit.Test
     public void e_saveByAuth()
     {
+
+
     }
+    //    "roomtype": "string",
+    //    "accommodates": 0,
+    //    "bathrooms": 0,
+    //    "city": "string",
+    //    "latitude": 0,
+    //    "longitude": 0,
+    //    "reviewscoresrating": 0,
+    //    "bedrooms": 0,
+    //    "beds": 0,
+    //    "tv": 0,
+    //    "steetaddress": "string",
+    //    "zipcode" : 0
+    //    "price"
 
     @org.junit.Test
     public void f_save()
     {
+        List<User> listUser = userService.findAll();
+        User u = listUser.get(0);
+        System.out.println("HERE" + u.getRoles());
+
+        Listing newListing = new Listing(
+            "single room", 1, 1, "st. louis", 0, 0, 2, 1, 1, 1,
+            "123 somewhere drive, st. louis, Missouri 80024", 74012, "click for price", listUser.get(0));
+
+       // User u = listUser.get(0);
+        System.out.println("HERE" + u.getRoles());
+
+        u.getList().add(newListing);
+
+        User addUser = userService.save(u);
+
+
+        User foundUser = userService.findUserById(addUser.getUserid());
+
+        assertNotNull(addUser);
+        assertEquals(addUser.getPrimaryemail(), foundUser.getPrimaryemail());
+
+
     }
 
     @org.junit.Test

@@ -99,7 +99,6 @@ public class Listing extends Auditable
         String price,
         User user)
     {
-        this.listingid = listingid;
         this.roomtype = roomtype;
         this.accomodates = accomodates;
         this.bathrooms = bathrooms;
