@@ -1,2 +1,2 @@
-# BuildWeek4_AirBnB
-Lambda School Air BnB Java Application
+# Airbnb Optimal
+Restful API using Java with the Spring Framework
